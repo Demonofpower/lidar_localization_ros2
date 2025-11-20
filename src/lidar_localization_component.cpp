@@ -371,6 +371,11 @@ void PCLLocalization::odomReceived(const nav_msgs::msg::Odometry::ConstSharedPtr
     return;
   }
 
+  if (!corrent_pose_with_cov_stamped_ptr_) {
+    RCLCPP_DEBUG(this->get_logger(), "Pose not yet initialized, skipping odometry integration");
+    return;
+  }
+
   tf2::Quaternion previous_quat_tf;
   double roll, pitch, yaw;
   tf2::fromMsg(corrent_pose_with_cov_stamped_ptr_->pose.pose.orientation, previous_quat_tf);
